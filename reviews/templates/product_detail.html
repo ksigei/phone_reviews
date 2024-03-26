@@ -1,0 +1,153 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ product.name }} - Product Detail{% endblock %}
+
+{% block content %}
+<style>
+    /* Custom CSS for styling */
+    .product-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+    }
+
+    .product-details-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        width: 100%;
+        max-width: 800px;
+        margin-top: 20px;
+    }
+
+    .product-image {
+        width: 300px;
+        border-radius: 10px;
+        margin-right: 20px;
+    }
+
+    .product-details {
+        flex: 1;
+    }
+
+    .product-info {
+        background-color: #f9f9f9;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .product-name {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .product-description {
+        font-size: 16px;
+        margin-bottom: 20px;
+    }
+
+    .product-price {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
+    .add-review-btn {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        display: inline-block;
+    }
+
+    .add-review-btn:hover {
+        background-color: #0056b3;
+    }
+
+    .reviews-container {
+        width: 100%;
+        max-width: 800px;
+        margin-top: 40px;
+    }
+
+    .review-card {
+        background-color: #f9f9f9;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+    }
+
+    .review-info {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+    }
+
+    .review-text {
+        margin-bottom: 10px;
+    }
+
+    .review-username {
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    .review-rating {
+        font-size: 14px;
+        margin-bottom: 10px;
+    }
+
+    .review-time {
+        font-size: 12px;
+        color: #666;
+    }
+
+    .percentage-info {
+        font-size: 14px;
+        text-align: right;
+    }
+</style>
+
+<div class="product-container">
+    <div class="product-details-container">
+        <img src="{{ product.image.url }}" class="product-image" alt="{{ product.name }}">
+        <div class="product-details">
+            <div class="product-info">
+                <h2 class="product-name">{{ product.name }}</h2>
+                <p class="product-description">{{ product.description }}</p>
+                <p class="product-price">Price: Ksh.{{ product.price }}</p>
+                <a href="{% url 'review_create' product.pk %}" class="add-review-btn">Add Review & Rate</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reviews Section -->
+    <div class="reviews-container">
+        <h2>Reviews</h2>
+        {% for review in reviews %}
+        <div class="review-card">
+            <div class="review-info">
+                <p class="review-username">User: {{ review.user.username }}</p>
+                <p class="review-rating">Rating: {{ review.rating }}</p>
+            </div>
+            <p class="review-text">Review: {{ review.text }}</p>
+            <div class="percentage-info">
+                <p class="card-text">Percentage Fake: {{ review.percentage_fake }}%</p>
+                <p class="card-text">Percentage Genuine: {{ review.percentage_genuine }}%</p>
+            </div>
+            <p class="review-time">Time: {{ review.created_at }}</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
